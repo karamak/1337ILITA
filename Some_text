@@ -1,0 +1,143 @@
+<html>
+   <?php
+      include_once('connect.php'); // Подключаем файл connect.php
+      
+      ?>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Преображение</title>
+      <!-- Bootstrap core CSS -->
+      <link href="css/bootstrap.css" rel="stylesheet">
+      <!-- Add custom CSS here -->
+      <link href="css/simple-sidebar.css" rel="stylesheet">
+      <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+      <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   </head>
+   <body>
+      <div id="wrapper" class="toggled">
+         <!-- Sidebar -->
+         <div id="sidebar-wrapper">
+            <ul class="sidebar-nav space">
+               <li class="sidebar-brand">
+                  <a href="index.php">Главная</a>
+               </li>
+            </ul>
+         </div>
+         <!-- Page content -->
+         <div id="page-content-wrapper">
+            <div class="container-fluid">
+               <a id="menu-toggle" href="#">
+               <span class="bar"></span>
+               <span class="bar"></span>
+               <span class="bar"></span>
+               </a>
+            </div>
+            <div  class="col-md-12">
+               <hr>
+               <h1>Галмет</h1>
+               <hr>
+            </div>
+            <div class="container">
+               <div class="row">
+                  <div class="col-xs-6 event-img">
+                     <img src="img/2.jpg">
+                  </div>
+                  <div class="col-xs-6 ">
+                     <p>Премьера спектакля состоялась 2 сентября 2015 года.
+                        <br>Сценография: Александр Шишкин<br>Художник по костюмам: Максим Обрезков<br>
+                        Художник по свету: Александр Сиваев<br>Балетмейстер: Николай Реутов<br>
+                        Художник по гриму: Ольга Калявина<br>Звуковой дизайн: Андрей Мирный<br>
+                        Ассистент режиссера: Юрий Лауфер<br>Дирижер: Ростислав Архангельский<br>
+                        Концертмейстер: Е.С. Пажитнова
+                     </p>
+                     <div class="spektakl-event-button"><button class="btn1 btn-default" onclick="return location.href = 'includes/register.php'">ЗАКАЗАТЬ</button></div>
+                  </div>
+               </div>
+            </div>
+            <br>
+            <table border="4">
+               <h2>Режиссер</h2>
+               <?php
+                  $res = mysql_query('SELECT Rezhissery.IMYA_REZHISSERA "Имя", Rezhissery.FAMILIYA_REZHISSERA "Фамилия", Spektakli.NAME_SPEKTAKLYA "Спектакль", Spektakli.GOD_POSTANOVKI "Год постановки",Genre.NAME_GENRE "Жанр", Seansy.NAME_SEANSA "Сеанс"
+                  FROM Spektakli, Rezhissery, Genre, Seansy WHERE Spektakli.ID_REZHISSERA = Rezhissery.ID_REZHISSERA AND Spektakli.ID_GENRE = Genre.ID_GENRE AND Spektakli.ID_SEANSA = Seansy.ID_SEANSA
+                  LIMIT 1,1'); // Выбираем данные которые хотим видеть в таблице
+                  echo '<tr>';
+                  for ($j=0;$j<mysql_num_fields($res);$j++){ // Проходим в цилке по названиям стобцов таблицы
+                   echo '<th>'.mysql_field_name($res, $j).'</th>'; // Выводим заголовоки столбцов таблицы
+                  }
+                  echo '</tr>';
+                  for ($i=0;$i<mysql_num_rows($res);$i++){ // Проходим по содержимому запроса
+                   echo '<tr>';
+                   $content = mysql_fetch_row($res); // Получаем строку запроса в виде массива
+                   for ($k=0;$k<count($content);$k++){ // В цикле проходим по массиву
+                   echo '<td>'.$content[$k].'</td>'; // Выводим данные
+                   }
+                   echo '</tr>';
+                  }
+                  
+                  ?>
+            </table>
+            <br>
+            <h2>Информация</h2>
+            <table border="4">
+               <?php
+                  $res = mysql_query('SELECT Spektakli.DATE_NACHALA "Дата начала", Spektakli.VREMYA_NACHALA "Время начала", Spektakli.PRODOL "Продолжительность" FROM Spektakli LIMIT 1,1'); // Выбираем данные которые хотим видеть в таблице
+                  echo '<tr>';
+                  for ($j=0;$j<mysql_num_fields($res);$j++){ // Проходим в цилке по названиям стобцов таблицы
+                   echo '<th>'.mysql_field_name($res, $j).'</th>'; // Выводим заголовоки столбцов таблицы
+                  }
+                  echo '</tr>';
+                  for ($i=0;$i<mysql_num_rows($res);$i++){ // Проходим по содержимому запроса
+                   echo '<tr>';
+                   $content = mysql_fetch_row($res); // Получаем строку запроса в виде массива
+                   for ($k=0;$k<count($content);$k++){ // В цикле проходим по массиву
+                   echo '<td>'.$content[$k].'</td>'; // Выводим данные
+                   }
+                   echo '</tr>';
+                  }
+                  
+                  ?>
+            </table>
+            <br>
+            <h2>Актеры</h2>
+            <table border="4">
+               <?php
+                  $res = mysql_query('SELECT 
+                      Aktery.FAMILIYA_AKTERA "Имя",
+                      Aktery.IMYA_AKTERA "Фамилия",
+                      Aktery.OTCHESTVO_AKTERA "Отчество",
+                      Roli.ROLb "Роль"
+                      
+                  FROM Aktery, Roli, Spektakli
+                  WHERE Roli.ID_SPEKTAKLYA = Spektakli.ID_SPEKTAKLYA AND Roli.ID_AKTERA = Aktery.ID_AKTERA  LIMIT 12, 11'); // Выбираем данные которые хотим видеть в таблице
+                  echo '<tr>';
+                  for ($j=0;$j<mysql_num_fields($res);$j++){ // Проходим в цилке по названиям стобцов таблицы
+                   echo '<th>'.mysql_field_name($res, $j).'</th>'; // Выводим заголовоки столбцов таблицы
+                  }
+                  echo '</tr>';
+                  for ($i=0;$i<mysql_num_rows($res);$i++){ // Проходим по содержимому запроса
+                   echo '<tr>';
+                   $content = mysql_fetch_row($res); // Получаем строку запроса в виде массива
+                   for ($k=0;$k<count($content);$k++){ // В цикле проходим по массиву
+                   echo '<td>'.$content[$k].'</td>'; // Выводим данные
+                   }
+                   echo '</tr>';
+                  }
+                  
+                  ?>
+            </table>
+         </div>
+      </div>
+      <script type="text/javascript">
+         $("#menu-toggle").click(function(e) {
+                 e.preventDefault();
+                 $("#wrapper").toggleClass("toggled");
+             });
+               
+      </script>
+   </body>
+</html>
