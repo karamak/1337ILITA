@@ -1,0 +1,33 @@
+#include <locale.h>
+#include <conio.h>
+#include <stdio.h>
+
+using namespace std;
+const float pi = 3.1415926F;
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+
+	float angle;
+	char mode;
+	while (true) {
+		printf("Введите угол:\n");
+		scanf_s("%f%c", &angle, &mode , 1);
+		scanf_s("%*[^\n]");
+
+		if (mode == 'D') {
+			angle *= pi / 180.0F;
+			break;
+		}
+		if (mode == 'R') {
+			angle *= 180.0F / pi;
+			break;
+		}
+
+		printf("Неправильный ввод, введите ещё раз(D - градусы, R - радианы)\n");
+	}
+	printf("%f", angle);
+
+	_getch();
+	return 0;
+}

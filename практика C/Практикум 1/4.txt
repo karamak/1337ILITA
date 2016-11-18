@@ -1,0 +1,23 @@
+#include <locale.h>
+#include <conio.h>
+#include <stdio.h>
+
+using namespace std;
+const float pi = 3.1415926F;
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+
+	unsigned int foot, duim;
+	float sm;
+
+	printf("¬ведите футы и дюймы:\n");
+	scanf_s("%u%u", &foot, &duim);
+	scanf_s("%*[^\n]");
+
+	sm = (foot * 12 + duim)*2.54F;
+	printf("%.1fсм", sm);
+
+	_getch();
+	return 0;
+}
